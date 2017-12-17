@@ -34,6 +34,29 @@ function getCurrentTabUrl(callback) {
   });
 }
 
+function getSelectedFont() {
+  font = document.getElementById("option-font").value;
+  return font != "not selected" ? font : "Jameel Noori Nastaleeq";
+}
+
+function getFontSize() {
+  size = parseInt(document.getElementById("option-font-size").value);
+  return isNaN(size) ? "18" : size;
+}
+// added fxn
+function process_word(word) {
+  //todo : add processing logic
+}
+
+function process_sentence(sentence) {
+
+  words = sentence.split(" ")
+
+  for (var i = 0; i < words.length; i++) {
+    labelled_word = process_word( words[i]);
+  }
+}
+
 // added fxn
 function doTestJSZip(d) {
 
@@ -61,14 +84,17 @@ function doCreateCanvasImage(text) {
   var ctx = canvas.getContext('2d');
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = "18px 'Courier'";
-  ctx.strokeText(text, 0, 100);
 
+  //ctx.font = "18px 'Tahoma'";
+  ctx.font = getSelectedFont();
+  font_size = getFontSize();
+  ctx.fillText(text, 0, 100);
   var dataurl = canvas.toDataURL();
-
   var currImg = document.getElementById("previewImg").src = dataurl;
-
+  // labels = process_sentence(text)
+  // todo: show labels in a <p> tag
   return [text, dataurl];
+
 
 }
 // added function
@@ -88,16 +114,16 @@ function getSelectionText() {
       var text = selection[0];
 
       var d = doCreateCanvasImage(text);
-      doTestJSZip(d);
+      //doTestJSZip(d);
 
       document.getElementById("testtube").innerHTML = selection[0];
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+
   getCurrentTabUrl((url) => {
     //var dropdown = document.getElementById('dropdown');
-
     var testtube = document.getElementById("testtube");
 
     var dobtn = document.getElementById("do");
